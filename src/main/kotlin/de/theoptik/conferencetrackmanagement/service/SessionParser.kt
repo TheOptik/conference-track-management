@@ -4,7 +4,9 @@ import de.theoptik.conferencetrackmanagement.exception.SessionFormatException
 import de.theoptik.conferencetrackmanagement.model.Session
 import org.springframework.stereotype.Service
 
-private val SESSION_PATTERN = Regex("([^0-9]+)([0-9]+min|lightning)");
+private val MINUTES = "min"
+private val LIGHTNING = "lightning"
+private val SESSION_PATTERN = Regex("([^0-9]+)([0-9]+$MINUTES|$LIGHTNING)");
 
 @Service
 class SessionParser {
@@ -14,11 +16,11 @@ class SessionParser {
         val title = matchResult.groupValues[1].trim()
         val length = matchResult.groupValues[2]
 
-        if(length == "lightning"){
-            return Session(title,5)
+        if (length == LIGHTNING) {
+            return Session(title, 5)
         }
 
-        return Session(title, length.dropLast(3).toInt())
+        return Session(title, length.dropLast(MINUTES.length).toInt())
     }
 
 }
