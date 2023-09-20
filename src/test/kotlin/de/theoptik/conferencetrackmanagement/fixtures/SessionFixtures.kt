@@ -4,6 +4,18 @@ import de.theoptik.conferencetrackmanagement.model.Session
 import org.junit.jupiter.params.provider.Arguments
 import java.util.stream.Stream
 
+
+val ALL_SESSIONS = listOf(
+    Session("Writing Fast Tests Against Enterprise Rails", 60),
+    Session("Overdoing it in Python", 45),
+    Session("Lua for the Masses", 30),
+    Session("Ruby Errors from Mismatched Gem Versions", 45),
+    Session("Common Ruby Errors", 45),
+    Session("Rails for Python Developers", 5),
+    Session("Communicating Over Distance", 60),
+    Session("Accounting-Driven Development", 45)
+)
+
 object SessionFixtures {
     @JvmStatic
     fun sessionsWithTitleAndLength(): Stream<Arguments> {
@@ -23,4 +35,5 @@ object SessionFixtures {
             Arguments.of("Accounting-Driven Development 45min", Session("Accounting-Driven Development", 45)),
         )
     }
+
 }
