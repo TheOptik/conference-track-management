@@ -1,8 +1,10 @@
 package de.theoptik.conferencetrackmanagement.service
 
+import de.theoptik.conferencetrackmanagement.exception.SessionFormatException
 import de.theoptik.conferencetrackmanagement.model.Session
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
+import org.junit.jupiter.api.assertThrows
 import org.junit.jupiter.params.ParameterizedTest
 import org.junit.jupiter.params.provider.Arguments
 import org.junit.jupiter.params.provider.MethodSource
@@ -27,6 +29,20 @@ internal class SessionParserTest {
         val result = sessionParser.parseSession("Rails for Python Developers lightning")
 
         assertThat(result).isEqualTo(Session("Rails for Python Developers", 5))
+    }
+
+    @Test
+    fun sessionsWithNumbersInTitlesAreRejected() {
+        val sessionParser = SessionParser()
+
+        assertThrows<SessionFormatException> { sessionParser.parseSession("Five(5) minutes in developer heaven 5min") }
+    }
+
+    @Test
+    fun sessionsWithoutLengthAreRejected() {
+        val sessionParser = SessionParser()
+
+        assertThrows<SessionFormatException> { sessionParser.parseSession("This is a session without length") }
     }
 
 
