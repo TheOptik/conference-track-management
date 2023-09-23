@@ -1,0 +1,4 @@
+- All tracks must end in a networking event
+- Networking events across tracks must not all start at the same time
+- Gaps in the schedule are permitted
+- Tracks should be as filled as possible
