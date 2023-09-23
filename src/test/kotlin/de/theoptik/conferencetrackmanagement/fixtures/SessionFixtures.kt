@@ -16,24 +16,21 @@ val ALL_SESSIONS = listOf(
     Session("Accounting-Driven Development", 45)
 )
 
+val ALL_SESSIONS_UNPARSED = listOf(
+    "Writing Fast Tests Against Enterprise Rails 60min",
+    "Overdoing it in Python 45min",
+    "Lua for the Masses 30min",
+    "Ruby Errors from Mismatched Gem Versions 45min",
+    "Common Ruby Errors 45min",
+    "Rails for Python Developers lightning",
+    "Communicating Over Distance 60min",
+    "Accounting-Driven Development 45min"
+)
+
 object SessionFixtures {
     @JvmStatic
     fun sessionsWithTitleAndLength(): Stream<Arguments> {
-        return Stream.of(
-            Arguments.of(
-                "Writing Fast Tests Against Enterprise Rails 60min",
-                Session("Writing Fast Tests Against Enterprise Rails", 60)
-            ),
-            Arguments.of("Overdoing it in Python 45min", Session("Overdoing it in Python", 45)),
-            Arguments.of("Lua for the Masses 30min", Session("Lua for the Masses", 30)),
-            Arguments.of(
-                "Ruby Errors from Mismatched Gem Versions 45min",
-                Session("Ruby Errors from Mismatched Gem Versions", 45)
-            ),
-            Arguments.of("Common Ruby Errors 45min", Session("Common Ruby Errors", 45)),
-            Arguments.of("Communicating Over Distance 60min", Session("Communicating Over Distance", 60)),
-            Arguments.of("Accounting-Driven Development 45min", Session("Accounting-Driven Development", 45)),
-        )
+        return ALL_SESSIONS_UNPARSED.zip(ALL_SESSIONS).map { Arguments.of(it.first, it.second) }.stream()
     }
 
 }

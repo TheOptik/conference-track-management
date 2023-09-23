@@ -8,7 +8,7 @@ import org.junit.jupiter.api.Test
 internal class TrackComposerTest {
 
     @Test
-    fun sessionsDoNotExceedTheirMaximumLength() {
+    fun tracksDoNotExceedTheirMaximumLength() {
         val composer = TrackComposer()
 
         val tracks = composer.composeTracks(ALL_SESSIONS)
