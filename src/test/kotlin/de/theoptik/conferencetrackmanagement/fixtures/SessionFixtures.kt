@@ -51,7 +51,7 @@ val ALL_SESSIONS_UNPARSED = listOf(
 
 object SessionFixtures {
     @JvmStatic
-    fun sessionsWithTitleAndLength(): Stream<Arguments> {
+    fun unparsedAndParsedSessions(): Stream<Arguments> {
         return ALL_SESSIONS_UNPARSED.zip(ALL_SESSIONS).map { Arguments.of(it.first, it.second) }.stream()
     }
 

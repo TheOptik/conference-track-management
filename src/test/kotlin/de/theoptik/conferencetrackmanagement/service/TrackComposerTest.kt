@@ -26,8 +26,8 @@ internal class TrackComposerTest {
 
         val tracks = composer.composeTracks(ALL_SESSIONS)
 
-        val allIncludedSesions = tracks.flatMap { it.morningSessions + it.afternoonSessions }
-        assertThat(allIncludedSesions).hasSameElementsAs(ALL_SESSIONS)
+        val allIncludedSessions = tracks.flatMap { it.morningSessions + it.afternoonSessions }
+        assertThat(allIncludedSessions).hasSameElementsAs(ALL_SESSIONS)
     }
 
     @Test
@@ -36,7 +36,7 @@ internal class TrackComposerTest {
 
         val tracks = composer.composeTracks(ALL_SESSIONS)
 
-        val allIncludedSesions = tracks.flatMap { it.morningSessions + it.afternoonSessions }
-        assertThat(allIncludedSesions).doesNotHaveDuplicates()
+        val allIncludedSessions = tracks.flatMap { it.morningSessions + it.afternoonSessions }
+        assertThat(allIncludedSessions).doesNotHaveDuplicates()
     }
 }

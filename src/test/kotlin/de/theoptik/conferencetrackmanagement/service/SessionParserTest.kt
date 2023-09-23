@@ -11,7 +11,7 @@ import org.junit.jupiter.params.provider.MethodSource
 internal class SessionParserTest {
 
     @ParameterizedTest
-    @MethodSource("de.theoptik.conferencetrackmanagement.fixtures.SessionFixtures#sessionsWithTitleAndLength")
+    @MethodSource("de.theoptik.conferencetrackmanagement.fixtures.SessionFixtures#unparsedAndParsedSessions")
     fun parsesSessionWithTitleAndLengthCorrectly(rawSession: String, parsedSession: Session) {
         val sessionParser = SessionParser()
 
