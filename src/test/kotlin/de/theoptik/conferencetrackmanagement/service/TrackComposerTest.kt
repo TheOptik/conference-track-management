@@ -19,4 +19,24 @@ internal class TrackComposerTest {
             assertThat(it.afternoonSessions.totalLengthInMinutes()).isLessThanOrEqualTo(Track.AFTERNOON_SESSIONS_MAXIMUM_LENGTH_IN_MINUTES)
         }
     }
+
+    @Test
+    fun allSessionsMustBeContainedWithinTheTracks() {
+        val composer = TrackComposer()
+
+        val tracks = composer.composeTracks(ALL_SESSIONS)
+
+        val allIncludedSesions = tracks.flatMap { it.morningSessions + it.afternoonSessions }
+        assertThat(allIncludedSesions).hasSameElementsAs(ALL_SESSIONS)
+    }
+
+    @Test
+    fun sessionsMayOnlyOccurOnceWithinAllTracks() {
+        val composer = TrackComposer()
+
+        val tracks = composer.composeTracks(ALL_SESSIONS)
+
+        val allIncludedSesions = tracks.flatMap { it.morningSessions + it.afternoonSessions }
+        assertThat(allIncludedSesions).doesNotHaveDuplicates()
+    }
 }
