@@ -9,16 +9,20 @@ import org.springframework.stereotype.Service
 class TrackComposer {
 
     fun composeTracks(sessions: List<Session>): List<Track> {
-        val morningSessions =
-            selectSessionsFromPool(listOf(), sessions, Track.MORNING_SESSIONS_MAXIMUM_LENGTH_IN_MINUTES)
-        val afternoonSessions =
-            selectSessionsFromPool(
-                listOf(),
-                sessions - morningSessions,
-                Track.AFTERNOON_SESSIONS_MAXIMUM_LENGTH_IN_MINUTES
-            )
+        var pool = sessions
+        val tracks = mutableListOf<Track>()
 
-        return listOf(Track(morningSessions, afternoonSessions))
+        while (pool.isNotEmpty()) {
+            val morningSessions =
+                selectSessionsFromPool(listOf(), pool, Track.MORNING_SESSIONS_MAXIMUM_LENGTH_IN_MINUTES)
+            val afternoonSessions = selectSessionsFromPool(
+                listOf(), pool - morningSessions, Track.AFTERNOON_SESSIONS_MAXIMUM_LENGTH_IN_MINUTES
+            )
+            pool = (pool - morningSessions) - afternoonSessions
+            tracks.add(Track(morningSessions, afternoonSessions))
+        }
+        
+        return tracks
     }
 
 
