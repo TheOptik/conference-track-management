@@ -3,6 +3,7 @@ package de.theoptik.conferencetrackmanagement.service
 import de.theoptik.conferencetrackmanagement.fixtures.ALL_SESSIONS
 import de.theoptik.conferencetrackmanagement.model.NETWORKING_EVENT_NAME
 import de.theoptik.conferencetrackmanagement.model.Session
+import de.theoptik.conferencetrackmanagement.model.Track
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
 
@@ -15,8 +16,8 @@ internal class TrackComposerTest {
         val tracks = composer.composeTracks(ALL_SESSIONS)
 
         assertThat(tracks).isNotEmpty().allSatisfy {
-            assertThat(totalLength(it.morningSessions)).isLessThanOrEqualTo(12 - 9)
-            assertThat(totalLength(it.afternoonSessions)).isLessThanOrEqualTo(17 - 13)
+            assertThat(totalLength(it.morningSessions)).isLessThanOrEqualTo(Track.MORNING_SESSIONS_MAXIMUM_LENGTH_IN_MINUTES)
+            assertThat(totalLength(it.afternoonSessions)).isLessThanOrEqualTo(Track.AFTERNOON_SESSIONS_MAXIMUM_LENGTH_IN_MINUTES)
         }
     }
 
