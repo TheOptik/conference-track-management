@@ -1,4 +1,4 @@
 - All tracks must end in a networking event
 - Networking events across tracks must not all start at the same time
-- Gaps in the schedule are permitted
+- A gap before lunch or before the networking event is permitted
 - Number of sessions is a rather small, so algorithmic time complexity is less important
