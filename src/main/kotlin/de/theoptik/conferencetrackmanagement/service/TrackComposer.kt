@@ -11,26 +11,25 @@ import org.springframework.stereotype.Service
 class TrackComposer {
 
     fun composeTracks(sessions: List<Session>): List<Track> {
-        return composeTracks(emptyList(), sessions)
+        return composeTracks(sessionPool = sessions)
     }
 
-    private fun composeTracks(tracks: List<Track>, sessionPool: List<Session>): List<Track> {
+    private fun composeTracks(sessionPool: List<Session>, tracks: List<Track> = emptyList()): List<Track> {
         if (sessionPool.isEmpty()) {
             return tracks
         }
-        val morningSessions =
-            selectSessionsFromPool(emptyList(), sessionPool, MORNING_SESSIONS_MAXIMUM_LENGTH_IN_MINUTES)
+        val morningSessions = selectSessionsFromPool(sessionPool, MORNING_SESSIONS_MAXIMUM_LENGTH_IN_MINUTES)
         val afternoonSessions = selectSessionsFromPool(
-            emptyList(), sessionPool - morningSessions, AFTERNOON_SESSIONS_MAXIMUM_LENGTH_IN_MINUTES
+            sessionPool - morningSessions, AFTERNOON_SESSIONS_MAXIMUM_LENGTH_IN_MINUTES,
         )
         return composeTracks(
-            tracks + Track(morningSessions, afternoonSessions), (sessionPool - morningSessions) - afternoonSessions
+            (sessionPool - morningSessions) - afternoonSessions, tracks + Track(morningSessions, afternoonSessions)
         )
     }
 
 
     private fun selectSessionsFromPool(
-        selectedSessions: List<Session>, sessionPool: List<Session>, maxSessionsLengthInMinutes: Int
+        sessionPool: List<Session>, maxSessionsLengthInMinutes: Int, selectedSessions: List<Session> = emptyList()
     ): List<Session> {
         if (selectedSessions.totalLengthInMinutes() == maxSessionsLengthInMinutes || sessionPool.isEmpty()) {
             return selectedSessions
@@ -40,10 +39,10 @@ class TrackComposer {
         val poolTail = sessionPool.subList(1, sessionPool.size)
 
         if (selectedSessions.totalLengthInMinutes() + poolHead.lengthInMinutes > maxSessionsLengthInMinutes) {
-            return selectSessionsFromPool(selectedSessions, poolTail, maxSessionsLengthInMinutes)
+            return selectSessionsFromPool(poolTail, maxSessionsLengthInMinutes, selectedSessions)
         }
 
-        return selectSessionsFromPool(selectedSessions + poolHead, poolTail, maxSessionsLengthInMinutes)
+        return selectSessionsFromPool(poolTail, maxSessionsLengthInMinutes, selectedSessions + poolHead)
     }
 
 
