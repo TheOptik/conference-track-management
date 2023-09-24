@@ -24,7 +24,7 @@ class TimeTableComposer {
 
     fun composeTimeTable(tracks: List<Track>): List<TimeTableTrack> {
 
-        return tracks.mapIndexed { index, track ->
+        val temporaryTimeTable = tracks.mapIndexed { index, track ->
             val morningSessionEntries = mapSessions(track.morningSessions, NINE)
             val lunchSessionEntry = TimeTableEntry(TWELVE, LUNCH_SESSION_NAME)
 
@@ -46,6 +46,7 @@ class TimeTableComposer {
         }
 
 
+        return moveAllNetworkingEventsToTheSameStartTime(temporaryTimeTable)
     }
 
     private fun mapSessions(
@@ -59,6 +60,17 @@ class TimeTableComposer {
 
         val newEntry = TimeTableEntry(currentSessionTime, head.title, head.lengthInMinutes)
         return mapSessions(tail, currentSessionTime.plusMinutes(head.lengthInMinutes.toLong()), accumulator + newEntry)
+    }
+
+    private fun moveAllNetworkingEventsToTheSameStartTime(timeTableTracks: List<TimeTableTrack>): List<TimeTableTrack> {
+        val latestNetworkingEventStartTime = timeTableTracks.flatMap { it.entries }.map { it.startTime }.max()
+        return timeTableTracks.map {
+            it.copy(entries = it.entries.map {
+                if (it.title != NETWORKING_EVENT_SESSION_NAME) it else it.copy(
+                    startTime = latestNetworkingEventStartTime
+                )
+            })
+        }
     }
 
 }

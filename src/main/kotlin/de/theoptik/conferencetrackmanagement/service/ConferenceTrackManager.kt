@@ -23,7 +23,6 @@ class ConferenceTrackManager(
         timeTableComposer.composeTimeTable(tracks)
 
             .forEach {
-                println(it)
                 lineWriter.println(it.toString())
             }
     }
