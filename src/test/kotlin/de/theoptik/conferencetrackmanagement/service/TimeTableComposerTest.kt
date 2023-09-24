@@ -4,6 +4,7 @@ import de.theoptik.conferencetrackmanagement.model.Session
 import de.theoptik.conferencetrackmanagement.model.Track
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
+import java.time.LocalTime
 import java.time.temporal.ChronoUnit.MINUTES
 
 
@@ -70,5 +71,25 @@ internal class TimeTableComposerTest {
             assertThat(it.entries.find { !it.startTime.isBefore(FOUR) && !it.startTime.isAfter(FIVE) }).isNotNull()
                 .extracting { it?.title }.isEqualTo(NETWORKING_EVENT_SESSION_NAME)
         }
+    }
+
+    @Test
+    fun networkingEventMustStartAtTheSameTimeAcrossAllTracks() {
+        val threeHourSession = Session("i am three hours long", 3 * 60)
+        val threeAndAHalfHourSession = Session("i am three and a half hours long", (3.5 * 60).toInt())
+
+
+        val tracks = listOf(
+            Track(listOf(), listOf(threeHourSession)),
+            Track(listOf(), listOf(threeAndAHalfHourSession))
+        )
+
+        val composer = TimeTableComposer()
+        val result = composer.composeTimeTable(tracks)
+
+        val networkingEventsStartTimes =
+            result.map { it.entries.first { it.title == NETWORKING_EVENT_SESSION_NAME } }.map { it.startTime }.toSet()
+
+        assertThat(networkingEventsStartTimes).containsExactly(LocalTime.of(16, 30))
     }
 }
