@@ -6,7 +6,7 @@ import org.springframework.stereotype.Service
 class LineWriter {
 
     fun println(line: String) {
-        println(line)
+        kotlin.io.println(line)
     }
 
 }

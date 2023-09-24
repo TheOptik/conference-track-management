@@ -1,3 +1,5 @@
+# Assumptions
+
 - All tracks must end in a networking event
 - Networking events across tracks must all start at the same time
 - A gap before lunch or before the networking event is permitted

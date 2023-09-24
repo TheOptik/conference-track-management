@@ -14,6 +14,7 @@ class ConferenceTrackManager(
     override fun run(vararg args: String?) {
         println("Welcome to the conference track manager!")
         println("Please input the sessions line by line, followed by an empty line after the last session.")
+        println()
 
         val sessions = generateSequence { lineProvider.nextLine() }.takeWhile { it.isNotBlank() }
             .map { sessionParser.parseSession(it) }.toList()
