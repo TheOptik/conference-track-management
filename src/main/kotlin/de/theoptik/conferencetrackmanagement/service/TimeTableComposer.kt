@@ -1,17 +1,19 @@
 package de.theoptik.conferencetrackmanagement.service
 
+import de.theoptik.conferencetrackmanagement.extensions.totalLengthInMinutes
 import de.theoptik.conferencetrackmanagement.model.Session
 import de.theoptik.conferencetrackmanagement.model.TimeTableEntry
 import de.theoptik.conferencetrackmanagement.model.TimeTableTrack
 import de.theoptik.conferencetrackmanagement.model.Track
 import java.time.LocalTime
+import java.time.temporal.ChronoUnit.MINUTES
 
 
-val NINE = LocalTime.of(9, 0)
-val TWELVE = LocalTime.of(12, 0)
-val ONE = LocalTime.of(13, 0)
-val FOUR = LocalTime.of(16, 0)
-val FIVE = LocalTime.of(17, 0)
+val NINE: LocalTime = LocalTime.of(9, 0)
+val TWELVE: LocalTime = LocalTime.of(12, 0)
+val ONE: LocalTime = LocalTime.of(13, 0)
+val FOUR: LocalTime = LocalTime.of(16, 0)
+val FIVE: LocalTime = LocalTime.of(17, 0)
 
 const val LUNCH_SESSION_NAME = "Lunch"
 const val NETWORKING_EVENT_SESSION_NAME = "Networking Event"
@@ -21,13 +23,23 @@ class TimeTableComposer {
     fun composeTimeTable(tracks: List<Track>): List<TimeTableTrack> {
 
         return tracks.mapIndexed { index, track ->
+            val morningSessionEntries = mapSessions(track.morningSessions, NINE)
+            val lunchSessionEntry = TimeTableEntry(TWELVE, LUNCH_SESSION_NAME, MINUTES.between(TWELVE, ONE).toInt())
+
+            val afternoonSessionEntries = mapSessions(track.afternoonSessions, ONE)
+            val networkingSessionEntry = TimeTableEntry(
+                ONE.plusMinutes(
+                    track.afternoonSessions.totalLengthInMinutes().toLong().coerceAtLeast(
+                        MINUTES.between(
+                            ONE, FOUR
+                        )
+                    )
+                ), NETWORKING_EVENT_SESSION_NAME
+            )
+
             TimeTableTrack(
                 "Track ${index + 1}",
-                mapSessions(track.morningSessions, NINE) + TimeTableEntry(TWELVE, LUNCH_SESSION_NAME, 60)
-                        + mapSessions(track.afternoonSessions, ONE) + TimeTableEntry(
-                    FIVE,
-                    NETWORKING_EVENT_SESSION_NAME
-                )
+                morningSessionEntries + lunchSessionEntry + afternoonSessionEntries + networkingSessionEntry
             )
         }
 
