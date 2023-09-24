@@ -5,5 +5,4 @@ data class TimeTableTrack(val trackName: String, val entries: List<TimeTableEntr
         return "${trackName}:${System.lineSeparator()}" + entries.map { it.toString() }
             .joinToString(System.lineSeparator())
     }
-
 }

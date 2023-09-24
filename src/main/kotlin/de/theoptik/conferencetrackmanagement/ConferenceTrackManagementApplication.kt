@@ -7,5 +7,5 @@ import org.springframework.boot.runApplication
 class ConferenceTrackManagementApplication
 
 fun main(args: Array<String>) {
-	runApplication<ConferenceTrackManagementApplication>(*args)
+    runApplication<ConferenceTrackManagementApplication>(*args)
 }

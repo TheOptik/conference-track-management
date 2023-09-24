@@ -6,7 +6,7 @@ import org.springframework.stereotype.Service
 
 private val MINUTES = "min"
 private val LIGHTNING = "lightning"
-private val SESSION_PATTERN = Regex("([^0-9]+)([0-9]+$MINUTES|$LIGHTNING)");
+private val SESSION_PATTERN = Regex("([^0-9]+)([0-9]+$MINUTES|$LIGHTNING)")
 
 @Service
 class SessionParser {
@@ -22,5 +22,4 @@ class SessionParser {
 
         return Session(title, length.dropLast(MINUTES.length).toInt())
     }
-
 }

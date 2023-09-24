@@ -5,9 +5,7 @@ import java.util.*
 
 @Service
 class LineProvider(private val scanner: Scanner = Scanner(System.`in`)) {
-
     fun nextLine(): String {
         return scanner.nextLine()
     }
-
 }

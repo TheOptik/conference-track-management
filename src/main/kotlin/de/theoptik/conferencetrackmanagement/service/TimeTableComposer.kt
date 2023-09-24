@@ -9,7 +9,6 @@ import org.springframework.stereotype.Service
 import java.time.LocalTime
 import java.time.temporal.ChronoUnit.MINUTES
 
-
 val NINE: LocalTime = LocalTime.of(9, 0)
 val TWELVE: LocalTime = LocalTime.of(12, 0)
 val ONE: LocalTime = LocalTime.of(13, 0)
@@ -21,7 +20,6 @@ const val NETWORKING_EVENT_SESSION_NAME = "Networking Event"
 
 @Service
 class TimeTableComposer {
-
     fun composeTimeTable(tracks: List<Track>): List<TimeTableTrack> {
 
         val temporaryTimeTable = tracks.mapIndexed { index, track ->
@@ -44,8 +42,6 @@ class TimeTableComposer {
                 morningSessionEntries + lunchSessionEntry + afternoonSessionEntries + networkingSessionEntry
             )
         }
-
-
         return moveAllNetworkingEventsToTheSameStartTime(temporaryTimeTable)
     }
 
@@ -73,5 +69,4 @@ class TimeTableComposer {
             })
         }
     }
-
 }

@@ -9,7 +9,6 @@ import org.springframework.stereotype.Service
 
 @Service
 class TrackComposer {
-
     fun composeTracks(sessions: List<Session>): List<Track> {
         return composeTracks(sessionPool = sessions)
     }
@@ -27,7 +26,6 @@ class TrackComposer {
         )
     }
 
-
     private fun selectSessionsFromPool(
         sessionPool: List<Session>, maxSessionsLengthInMinutes: Int, selectedSessions: List<Session> = emptyList()
     ): List<Session> {
@@ -44,6 +42,4 @@ class TrackComposer {
 
         return selectSessionsFromPool(poolTail, maxSessionsLengthInMinutes, selectedSessions + poolHead)
     }
-
-
 }
