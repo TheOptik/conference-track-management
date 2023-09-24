@@ -5,6 +5,7 @@ import de.theoptik.conferencetrackmanagement.model.Session
 import de.theoptik.conferencetrackmanagement.model.TimeTableEntry
 import de.theoptik.conferencetrackmanagement.model.TimeTableTrack
 import de.theoptik.conferencetrackmanagement.model.Track
+import org.springframework.stereotype.Service
 import java.time.LocalTime
 import java.time.temporal.ChronoUnit.MINUTES
 
@@ -18,6 +19,7 @@ val FIVE: LocalTime = LocalTime.of(17, 0)
 const val LUNCH_SESSION_NAME = "Lunch"
 const val NETWORKING_EVENT_SESSION_NAME = "Networking Event"
 
+@Service
 class TimeTableComposer {
 
     fun composeTimeTable(tracks: List<Track>): List<TimeTableTrack> {
