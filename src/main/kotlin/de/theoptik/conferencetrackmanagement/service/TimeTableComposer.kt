@@ -63,7 +63,8 @@ class TimeTableComposer {
     }
 
     private fun moveAllNetworkingEventsToTheSameStartTime(timeTableTracks: List<TimeTableTrack>): List<TimeTableTrack> {
-        val latestNetworkingEventStartTime = timeTableTracks.flatMap { it.entries }.map { it.startTime }.max()
+        val latestNetworkingEventStartTime =
+            timeTableTracks.flatMap { it.entries }.map { it.startTime }.maxOrNull() ?: FOUR
         return timeTableTracks.map {
             it.copy(entries = it.entries.map {
                 if (it.title != NETWORKING_EVENT_SESSION_NAME) it else it.copy(

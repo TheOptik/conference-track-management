@@ -21,6 +21,34 @@ internal class ConferenceTrackManagerTest {
         ALL_SESSIONS.forEach { verify(mockLineWriter).println(contains(it.title)) }
     }
 
+    @Test
+    fun itPrintsHelpfulMessageToTheUserWhenTheSessionInputIsNotValid() {
+        val mockLineProvider = setupMockLineProvider(listOf("Invalid Session"))
+        val mockLineWriter: LineWriter = mock()
+
+        val conferenceTrackManager = ConferenceTrackManager(
+            SessionParser(), TrackComposer(), TimeTableComposer(), mockLineProvider, mockLineWriter
+        )
+
+        conferenceTrackManager.run()
+
+        verify(mockLineWriter).println(contains("<session name> <session duration>"))
+    }
+
+    @Test
+    fun itPrintsHelpfulMessageToTheUserNoSessionsAreProvided() {
+        val mockLineProvider = setupMockLineProvider(listOf(""))
+        val mockLineWriter: LineWriter = mock()
+
+        val conferenceTrackManager = ConferenceTrackManager(
+            SessionParser(), TrackComposer(), TimeTableComposer(), mockLineProvider, mockLineWriter
+        )
+
+        conferenceTrackManager.run()
+
+        verify(mockLineWriter).println(contains("no sessions"))
+    }
+
     fun setupMockLineProvider(lines: List<String>): LineProvider {
         val firstLine = lines[0]
         val followingLines = lines.subList(1, lines.size).toTypedArray()
