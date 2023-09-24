@@ -26,7 +26,7 @@ class TimeTableComposer {
 
         return tracks.mapIndexed { index, track ->
             val morningSessionEntries = mapSessions(track.morningSessions, NINE)
-            val lunchSessionEntry = TimeTableEntry(TWELVE, LUNCH_SESSION_NAME, MINUTES.between(TWELVE, ONE).toInt())
+            val lunchSessionEntry = TimeTableEntry(TWELVE, LUNCH_SESSION_NAME)
 
             val afternoonSessionEntries = mapSessions(track.afternoonSessions, ONE)
             val networkingSessionEntry = TimeTableEntry(

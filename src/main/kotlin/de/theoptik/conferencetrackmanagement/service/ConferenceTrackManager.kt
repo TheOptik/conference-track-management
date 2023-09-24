@@ -12,6 +12,19 @@ class ConferenceTrackManager(
     private val lineWriter: LineWriter
 ) : CommandLineRunner {
     override fun run(vararg args: String?) {
-        TODO()
+        println("Welcome to the conference track manager!")
+        println("Please input the sessions line by line, followed by an empty line after the last session.")
+
+        val sessions = generateSequence { lineProvider.nextLine() }.takeWhile { it.isNotBlank() }
+            .map { sessionParser.parseSession(it) }.toList()
+
+        val tracks = trackComposer.composeTracks(sessions)
+
+        timeTableComposer.composeTimeTable(tracks)
+
+            .forEach {
+                println(it)
+                lineWriter.println(it.toString())
+            }
     }
 }
