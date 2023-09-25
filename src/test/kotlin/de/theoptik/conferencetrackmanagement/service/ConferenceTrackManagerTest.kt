@@ -36,6 +36,20 @@ internal class ConferenceTrackManagerTest {
     }
 
     @Test
+    fun itPrintsHelpfulMessageToTheUserWhenTheSessionExceedsMaximumSessionLength() {
+        val mockLineProvider = setupMockLineProvider(listOf("Very long session 600000min"))
+        val mockLineWriter: LineWriter = mock()
+
+        val conferenceTrackManager = ConferenceTrackManager(
+            SessionParser(), TrackComposer(), TimeTableComposer(), mockLineProvider, mockLineWriter
+        )
+
+        conferenceTrackManager.run()
+
+        verify(mockLineWriter).println(contains("exceeds the maximum length"))
+    }
+
+    @Test
     fun itPrintsHelpfulMessageToTheUserNoSessionsAreProvided() {
         val mockLineProvider = setupMockLineProvider(listOf(""))
         val mockLineWriter: LineWriter = mock()

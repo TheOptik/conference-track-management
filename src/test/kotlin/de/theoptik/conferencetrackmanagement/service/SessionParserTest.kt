@@ -1,6 +1,7 @@
 package de.theoptik.conferencetrackmanagement.service
 
 import de.theoptik.conferencetrackmanagement.exception.SessionFormatException
+import de.theoptik.conferencetrackmanagement.exception.SessionLengthException
 import de.theoptik.conferencetrackmanagement.model.Session
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
@@ -41,6 +42,13 @@ internal class SessionParserTest {
         val sessionParser = SessionParser()
 
         assertThrows<SessionFormatException> { sessionParser.parseSession("This is a session without length") }
+    }
+
+    @Test
+    fun sessionsWhichAreTooLongAreRejected() {
+        val sessionParser = SessionParser()
+
+        assertThrows<SessionLengthException> { sessionParser.parseSession("Listen to my neverending story 120000000min") }
     }
 
 }
