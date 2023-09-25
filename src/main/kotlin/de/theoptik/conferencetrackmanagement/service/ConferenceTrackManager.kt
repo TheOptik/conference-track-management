@@ -1,6 +1,7 @@
 package de.theoptik.conferencetrackmanagement.service
 
 import de.theoptik.conferencetrackmanagement.exception.SessionFormatException
+import de.theoptik.conferencetrackmanagement.exception.SessionLengthException
 import org.springframework.boot.CommandLineRunner
 import org.springframework.stereotype.Component
 
@@ -27,8 +28,11 @@ class ConferenceTrackManager(
                     lineWriter.println("Session titles may not contain numbers, e.g: My Cool Session")
                     lineWriter.println("Session duration may either be denoted in minutes or must be 'lightning', e.g: 45min.")
                     lineWriter.println()
-                    return@mapNotNull null
+                } catch (sessionLengthException: SessionLengthException) {
+                    lineWriter.println(sessionLengthException.message)
+                    lineWriter.println()
                 }
+                return@mapNotNull null
             }.toList()
 
         if (sessions.isEmpty()) {
